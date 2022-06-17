@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import DatePicker, { registerLocale } from 'react-datepicker';
-import { ko } from 'date-fns/esm/locale';
-registerLocale('ko', ko);
+import DatePicker from 'react-datepicker';
 import { useSetRecoilState } from 'recoil';
 
 import styled from '@emotion/styled';
-import { flexbox } from '@styles/mixins/_flexbox';
 import 'react-datepicker/dist/react-datepicker.css';
+import { textStyle } from '@styles/mixins/_text-style';
 import { btn48, btnPrimary } from '@styles/modules/_buttons';
 import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 import {
@@ -15,7 +13,6 @@ import {
   isFundingForm,
   isLocalGenerator,
 } from '@recoil/create';
-import { textStyle } from '@styles/mixins/_text-style';
 
 const Dates = () => {
   const [endDate, setEndDate] = useState(new Date());
@@ -40,42 +37,36 @@ const Dates = () => {
         due_date: dateToString(startDate),
       }));
       setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
+    } else {
+      alert('날짜를 입력해 주세요');
     }
   };
 
   return (
-    <Base>
-      <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
+      <SelectorForm>
         <Description>언제까지 펀딩할까요?</Description>
+        <DateInput>2022년 6월 13일 부터</DateInput>
+        <DateInput>
+          <DatePicker
+            selectsEnd
+            dateFormat="yyyy년 MM월 dd일까지"
+            selected={endDate}
+            startDate={startDate}
+            minDate={startDate}
+            onChange={(date: Date) => setEndDate(date)}
+          />
+        </DateInput>
+      </SelectorForm>
+      <div>
         <br />
-        <SelectorForm>
-          <DateInput>
-            <DatePicker
-              inline
-              locale={ko}
-              selectsEnd
-              dateFormat="yyyy년 MM월 dd (eee)"
-              selected={endDate}
-              startDate={startDate}
-              minDate={startDate}
-              onChange={(date: Date) => setEndDate(date)}
-            />
-          </DateInput>
-        </SelectorForm>
-      </Form>
-    </Base>
+      </div>
+      <NextButton>다음</NextButton>
+    </Form>
   );
 };
 
 export default Dates;
-
-const Base = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 0 10px;
-  margin-top: 150px;
-  ${flexbox('center', 'start')};
-`;
 
 const Form = styled.form`
   width: 100%;
@@ -85,7 +76,7 @@ const Form = styled.form`
 
 const SelectorForm = styled.div`
   width: 100%;
-  height: 350px;
+  height: 150px;
   border: 2px dashed #8b95a1;
   border-radius: 6px;
   display: flex;
@@ -95,8 +86,7 @@ const SelectorForm = styled.div`
 `;
 
 const Description = styled.p`
-  ${textStyle(18, '#191e29')};
-  text-align: center;
+  ${textStyle(18, '#8B95A1')};
 `;
 
 const DateInput = styled.label`

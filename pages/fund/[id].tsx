@@ -118,7 +118,7 @@ function FundList({}) {
 
   useEffect(() => {
     // 임의로 로딩 상태 표현
-    setTimeout(() => setLoading(false), 1200);
+    setTimeout(() => setLoading(false), 2800);
   }, []);
 
   return (

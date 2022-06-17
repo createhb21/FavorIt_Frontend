@@ -2,7 +2,7 @@ import { atom } from 'recoil';
 
 type Product = {
   link: string;
-  options: string;
+  option: string;
   price: number;
 };
 
@@ -28,7 +28,7 @@ export const isFundingForm = atom<FormType>({
     due_date: '',
     product: {
       link: '',
-      options: '',
+      option: '',
       price: 0,
     },
     recipient_name: '',
